@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop/models/cart.dart';
+import 'package:shop/models/products_list.dart';
 import 'package:shop/pages/counter_page.dart';
 import 'package:shop/pages/product_overview_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shop/provider/couter_provider.dart';
 import 'utils/routes.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -14,7 +18,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return CounterProvider(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ProductsList()),
+        ChangeNotifierProvider(create: (_) => Cart()),
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -24,13 +32,10 @@ class MyApp extends StatelessWidget {
         ),
         home: ProductOverview(),
         routes: {
-          AppRoutes.PRODUCTDETAIL:(context) => CounterPage(),
+          AppRoutes.PRODUCTDETAIL: (context) => CounterPage(),
         },
         debugShowCheckedModeBanner: false,
-    
-        
       ),
     );
   }
 }
-

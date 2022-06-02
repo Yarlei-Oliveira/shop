@@ -23,18 +23,20 @@ class _CounterPageState extends State<CounterPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(provider?.state.value.toString() ?? '0'),
-            IconButton(onPressed: () {
-              setState(() {
-                provider?.state.inc();
-              });
-            }, 
-            icon: Icon(Icons.add)),
-            IconButton(onPressed: () {
-              setState(() {
-                provider?.state.dec();
-              });
-            }, 
-            icon: Icon(Icons.remove))
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    provider?.state.inc();
+                  });
+                },
+                icon: Icon(Icons.add)),
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    provider?.state.dec();
+                  });
+                },
+                icon: Icon(Icons.remove))
           ],
         ),
       ),
