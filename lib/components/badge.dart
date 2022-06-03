@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class Badge extends StatelessWidget {
-<<<<<<< HEAD
   final Widget child;
   final String value;
   final Color? color;
@@ -43,14 +42,3 @@ class Badge extends StatelessWidget {
     );
   }
 }
-=======
-  const Badge({ Key? key }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      
-    );
-  }
-}
->>>>>>> 42cd30f85b36ac4c764f69ead3c893f2d6b2d967

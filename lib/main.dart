@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/models/cart.dart';
 import 'package:shop/models/products_list.dart';
-<<<<<<< HEAD
 import 'package:shop/pages/cart_page.dart';
-=======
->>>>>>> 42cd30f85b36ac4c764f69ead3c893f2d6b2d967
 import 'package:shop/pages/counter_page.dart';
 import 'package:shop/pages/product_overview_page.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -37,10 +34,7 @@ class MyApp extends StatelessWidget {
         home: ProductOverview(),
         routes: {
           AppRoutes.PRODUCTDETAIL: (context) => CounterPage(),
-<<<<<<< HEAD
           AppRoutes.CARTPAGE: (context) => CartPage(),
-=======
->>>>>>> 42cd30f85b36ac4c764f69ead3c893f2d6b2d967
         },
         debugShowCheckedModeBanner: false,
       ),
