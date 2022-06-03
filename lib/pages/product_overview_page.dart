@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/components/app_drawer.dart';
 import 'package:shop/components/badge.dart';
 import 'package:shop/models/cart.dart';
 import 'package:shop/utils/routes.dart';
@@ -21,7 +22,7 @@ class _ProductOverviewState extends State<ProductOverview> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Loja'),
-        centerTitle: true,
+        centerTitle: false,
         actions: [
           PopupMenuButton(
             itemBuilder: (_) => [
@@ -59,6 +60,7 @@ class _ProductOverviewState extends State<ProductOverview> {
         ],
       ),
       body: ProductWidget(_showFavoriteOnly),
+      drawer: AppDrawer(),
     );
   }
 }

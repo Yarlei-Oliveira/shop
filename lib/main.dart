@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/models/cart.dart';
+import 'package:shop/models/order_list.dart';
 import 'package:shop/models/products_list.dart';
 import 'package:shop/pages/cart_page.dart';
-import 'package:shop/pages/counter_page.dart';
+import 'package:shop/pages/orders_pages.dart';
+import 'package:shop/pages/product_detail_page.dart';
 import 'package:shop/pages/product_overview_page.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shop/provider/couter_provider.dart';
 import 'utils/routes.dart';
 
 void main() {
@@ -23,18 +24,22 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => ProductsList()),
         ChangeNotifierProvider(create: (_) => Cart()),
+        ChangeNotifierProvider(create: (_) => OrderList()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.purple,
-          accentColor: Colors.deepOrange,
-          fontFamily: GoogleFonts.lato().fontFamily,
+          primaryColor: Colors.purple,
+          
+          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple).copyWith(secondary: Colors.deepOrange),
+          fontFamily: GoogleFonts.lato().fontFamily, 
         ),
         home: ProductOverview(),
         routes: {
-          AppRoutes.PRODUCTDETAIL: (context) => CounterPage(),
+          AppRoutes.HOME:(context) => ProductOverview(),
+          AppRoutes.PRODUCTDETAIL: (context) => ProductDetail(),
           AppRoutes.CARTPAGE: (context) => CartPage(),
+          AppRoutes.ORDERS:(context) => OrderPage(),
         },
         debugShowCheckedModeBanner: false,
       ),
