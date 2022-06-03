@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:provider/provider.dart';
 import 'package:shop/components/badge.dart';
 import 'package:shop/models/cart.dart';
 import 'package:shop/utils/routes.dart';
+=======
+>>>>>>> 42cd30f85b36ac4c764f69ead3c893f2d6b2d967
 
 import '../components/product_grid.dart';
 
@@ -44,6 +47,7 @@ class _ProductOverviewState extends State<ProductOverview> {
               });
             },
           ),
+<<<<<<< HEAD
           Consumer<Cart>(
             child: IconButton(
                 onPressed: () {
@@ -56,6 +60,9 @@ class _ProductOverviewState extends State<ProductOverview> {
               child: child!,
             ),
           )
+=======
+          IconButton(onPressed: (){}, icon: Icon(Icons.shopping_cart))
+>>>>>>> 42cd30f85b36ac4c764f69ead3c893f2d6b2d967
         ],
       ),
       body: ProductWidget(_showFavoriteOnly),
