@@ -24,8 +24,31 @@ class CartItemWidget extends StatelessWidget {
         alignment: Alignment.centerRight,
         padding: EdgeInsets.only(right: 30),
       ),
+      confirmDismiss: (_) {
+        return showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Tem Certeza?'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+                child: Text('Sim'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                child: Text('Não'),
+              ),
+            ],
+          ),
+        );
+      },
       onDismissed: (_) {
-        Provider.of<Cart>(context, listen: false).removeItem(cartItem.productId);
+        Provider.of<Cart>(context, listen: false)
+            .removeItem(cartItem.productId);
       },
       child: Card(
         margin: EdgeInsets.symmetric(
@@ -34,10 +57,16 @@ class CartItemWidget extends StatelessWidget {
         ),
         child: ListTile(
           leading: CircleAvatar(
+            backgroundColor: Colors.purple,
             child: Padding(
               padding: const EdgeInsets.all(5),
               child: FittedBox(
-                child: Text("${cartItem.price}"),
+                child: Text(
+                  "${cartItem.price}",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
           ),
