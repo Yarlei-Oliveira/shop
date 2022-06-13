@@ -25,9 +25,11 @@ class _ProductOverviewState extends State<ProductOverview> {
     Provider.of<ProductsList>(
       context,
       listen: false,
-    ).loadProducts().then((value) {
-      setState(() => _isLoadding = false);
-    });
+    ).loadProducts().then(
+      (value) {
+        setState(() => _isLoadding = false);
+      },
+    );
   }
 
   @override
@@ -72,11 +74,11 @@ class _ProductOverviewState extends State<ProductOverview> {
           )
         ],
       ),
-      body:  _isLoadding
-      ? Center( 
-        child: CircularProgressIndicator(),
-      )
-      :ProductWidget(_showFavoriteOnly),
+      body: _isLoadding
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : ProductWidget(_showFavoriteOnly),
       drawer: AppDrawer(),
     );
   }
