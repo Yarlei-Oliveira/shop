@@ -11,6 +11,7 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final msg = ScaffoldMessenger.of(context);
     return ListTile(
       leading: CircleAvatar(
         backgroundImage: NetworkImage(product.imageUrl),
@@ -33,29 +34,44 @@ class ProductItem extends StatelessWidget {
             IconButton(
               onPressed: () {
                 showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                          title: Text('Excluir Produto?'),
-                          content: Text('Tem certeza'),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Provider.of<ProductsList>(context,
-                                        listen: false)
-                                    .deleteProduct(product);
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: Text('Excluir Produto?'),
+                    content: Text('Tem certeza'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Provider.of<ProductsList>(context, listen: false)
+                              .deleteProduct(product);
 
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('sim'),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('não'),
-                            ),
-                          ],
-                        ));
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('sim'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('não'),
+                      ),
+                    ],
+                  ),
+                ).then((value) async {
+                  if (value ?? false) {
+                    try {
+                      await Provider.of<ProductsList>(
+                        context,
+                        listen: false,
+                      ).deleteProduct(product);
+                    } catch (error) {
+                      msg.showSnackBar(
+                        SnackBar(
+                          content: Text(error.toString()),
+                        ),
+                      );
+                    }
+                  }
+                });
               },
               icon: Icon(Icons.delete),
               color: Theme.of(context).errorColor,
