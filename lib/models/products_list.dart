@@ -8,15 +8,14 @@ import 'package:shop/models/product.dart';
 import '../utils/constantes.dart';
 
 class ProductsList with ChangeNotifier {
-
-
+  final String _token;
   List<Product> _items = [];
-
-  bool _showFavoriteOnly = false;
 
   List<Product> get items => [..._items];
   List<Product> get FavoriteItems =>
       items.where((prod) => prod.isFavorite).toList();
+
+  ProductsList(this._token, this._items);
 
   int get itemsCount {
     return _items.length;
@@ -25,7 +24,7 @@ class ProductsList with ChangeNotifier {
   Future<void> loadProducts() async {
     _items.clear();
     final response = await http.get(
-      Uri.parse("${Constantes.BASE_URL}.json"),
+      Uri.parse("${Constantes.BASE_URL}.json?auth=$_token"),
     );
     if (response.body == 'null') return;
     Map<String, dynamic> data = jsonDecode(response.body);
@@ -65,18 +64,6 @@ class ProductsList with ChangeNotifier {
     int index = _items.indexWhere((p) => p.id == product.id);
 
     if (index >= 0) {
-      final response = await http.patch(
-        Uri.parse("${Constantes.BASE_URL}/${product.id}.json"),
-        body: jsonEncode(
-          {
-            'name': product.title,
-            'description': product.description,
-            'price': product.price,
-            'imageUrl': product.imageUrl,
-            'isFavorite': product.isFavorite,
-          },
-        ),
-      );
       _items[index] = product;
       notifyListeners();
     }
@@ -84,7 +71,7 @@ class ProductsList with ChangeNotifier {
 
   Future<void> addProduct(Product item) async {
     final response = await http.post(
-      Uri.parse("${Constantes.BASE_URL}.json"),
+      Uri.parse("${Constantes.BASE_URL}.json?auth=$_token"),
       body: jsonEncode(
         {
           'name': item.title,
@@ -118,8 +105,8 @@ class ProductsList with ChangeNotifier {
       _items.remove(product);
       notifyListeners();
 
-      final response =
-          await http.delete(Uri.parse("${Constantes.BASE_URL}/${product.id}.json"));
+      final response = await http
+          .delete(Uri.parse("${Constantes.BASE_URL}/${product.id}.json?auth=$_token"));
 
       if (response.statusCode >= 400) {
         _items.insert(index, product);
