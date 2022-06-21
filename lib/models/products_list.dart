@@ -9,13 +9,18 @@ import '../utils/constantes.dart';
 
 class ProductsList with ChangeNotifier {
   final String _token;
+  final String uid;
   List<Product> _items = [];
 
   List<Product> get items => [..._items];
   List<Product> get FavoriteItems =>
       items.where((prod) => prod.isFavorite).toList();
 
-  ProductsList(this._token, this._items);
+  ProductsList([
+    this._token = '',
+    this.uid = '',
+    this._items = const [],
+  ]);
 
   int get itemsCount {
     return _items.length;
@@ -27,8 +32,19 @@ class ProductsList with ChangeNotifier {
       Uri.parse("${Constantes.BASE_URL}.json?auth=$_token"),
     );
     if (response.body == 'null') return;
+
+    final favResponse = await http.get(
+      Uri.parse("${Constantes.USER_FAVORITE}/$uid.json?auth=$_token"),
+    );
+
+    Map<String, dynamic> favData =
+        favResponse.body == 'null'
+        ? {} 
+        : jsonDecode(favResponse.body);
+
     Map<String, dynamic> data = jsonDecode(response.body);
     data.forEach((productId, productData) {
+      final _isFavorite = favData['$productId'] ?? false;
       _items.add(
         Product(
           id: productId,
@@ -36,7 +52,7 @@ class ProductsList with ChangeNotifier {
           description: productData['description'],
           price: productData['price'],
           imageUrl: productData['imageUrl'],
-          isFavorite: productData['isFavorite'],
+          isFavorite: _isFavorite,
         ),
       );
     });
@@ -78,7 +94,6 @@ class ProductsList with ChangeNotifier {
           'description': item.description,
           'price': item.price,
           'imageUrl': item.imageUrl,
-          'isFavorite': item.isFavorite,
         },
       ),
     );
@@ -91,7 +106,6 @@ class ProductsList with ChangeNotifier {
         description: item.description,
         price: item.price,
         imageUrl: item.imageUrl,
-        isFavorite: item.isFavorite,
       ),
     );
     notifyListeners();
@@ -105,8 +119,8 @@ class ProductsList with ChangeNotifier {
       _items.remove(product);
       notifyListeners();
 
-      final response = await http
-          .delete(Uri.parse("${Constantes.BASE_URL}/${product.id}.json?auth=$_token"));
+      final response = await http.delete(
+          Uri.parse("${Constantes.BASE_URL}/${product.id}.json?auth=$_token"));
 
       if (response.statusCode >= 400) {
         _items.insert(index, product);

@@ -1,14 +1,20 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:shop/exceptions/auth_exception.dart';
+import 'package:shop/models/products_list.dart';
+
+import '../data/store.dart';
 
 class Auth with ChangeNotifier {
   String? _token;
   String? _email;
   String? _uid;
   DateTime? _expiryDate;
+  Timer? _logoutTimer;
 
   bool get isAuth {
     final isValid = _expiryDate?.isAfter(DateTime.now()) ?? false;
@@ -54,6 +60,18 @@ class Auth with ChangeNotifier {
           seconds: int.parse(body['expiresIn']),
         ),
       );
+
+      Store.saveMap(
+        'UserData',
+        {
+          'token': _token,
+          'email': _email,
+          'uid': _uid,
+          'expiryDate': _expiryDate?.toIso8601String(),
+        },
+      );
+
+      _autoLogout();
       notifyListeners();
     }
   }
@@ -66,11 +84,20 @@ class Auth with ChangeNotifier {
     return _authenticate(email, password, 'signInWithPassword');
   }
 
+ 
+
+
   void Logout() {
     _token = null;
     _email = null;
     _uid = null;
     _expiryDate = null;
     notifyListeners();
+  }
+
+  void _autoLogout() {
+    _logoutTimer = null;
+    final logoutTimer = _expiryDate?.difference(DateTime.now()).inSeconds;
+    _logoutTimer = Timer(Duration(seconds: logoutTimer ?? 0), Logout);
   }
 }

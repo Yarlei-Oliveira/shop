@@ -12,7 +12,6 @@ import '../models/product.dart';
 class ProductGridItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     final product = Provider.of<Product>(context, listen: true);
     final cart = Provider.of<Cart>(context, listen: false);
     final auth = Provider.of<Auth>(context, listen: false);
@@ -34,8 +33,10 @@ class ProductGridItem extends StatelessWidget {
               icon: Icon(
                   product.isFavorite ? Icons.favorite : Icons.favorite_border),
               onPressed: () {
-                product.toggleFavorite(auth.token ?? '');
-                
+                product.toggleFavorite(
+                  auth.token ?? '',
+                  auth.uid ?? '',
+                );
               },
               color: Theme.of(context).colorScheme.secondary,
             ),
@@ -54,7 +55,7 @@ class ProductGridItem extends StatelessWidget {
                   duration: Duration(seconds: 2),
                   action: SnackBarAction(
                     label: 'DESFAZER',
-                    onPressed: (){
+                    onPressed: () {
                       cart.removeSingleItem(product.id);
                     },
                   ),
