@@ -67,7 +67,7 @@ class Auth with ChangeNotifier {
           'token': _token,
           'email': _email,
           'uid': _uid,
-          'expiryDate': _expiryDate?.toIso8601String(),
+          'expiryDate': _expiryDate!.toIso8601String(),
         },
       );
 
@@ -84,20 +84,38 @@ class Auth with ChangeNotifier {
     return _authenticate(email, password, 'signInWithPassword');
   }
 
- 
+  Future<void> tryAutoLogin() async {
+    if (isAuth) return;
 
+    final userData = await Store.getMap('User Data');
+    if (userData.isEmpty) return;
+
+    final expiryDate = await DateTime.parse(userData['expiryDate']);
+    if (expiryDate.isBefore(DateTime.now())) return;
+
+    _token = userData['token'];
+    _email = userData['email'];
+    _uid = userData['uid'];
+    _expiryDate = expiryDate;
+
+    _autoLogout();
+    notifyListeners();
+  }
 
   void Logout() {
     _token = null;
     _email = null;
     _uid = null;
     _expiryDate = null;
-    notifyListeners();
+    Store.remove('userData').then((_) => notifyListeners());
   }
 
   void _autoLogout() {
     _logoutTimer = null;
     final logoutTimer = _expiryDate?.difference(DateTime.now()).inSeconds;
-    _logoutTimer = Timer(Duration(seconds: logoutTimer ?? 0), Logout);
+    _logoutTimer = Timer(
+      Duration(seconds: logoutTimer ?? 0),
+      Logout,
+    );
   }
 }

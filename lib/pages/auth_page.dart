@@ -24,39 +24,44 @@ class AuthPage extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(bottom: 20),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 70,
-                    vertical: 10,
-                  ),
-                  transform: Matrix4.rotationZ(-8 * pi / 180)..translate(-10.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.deepOrange.shade800,
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 8,
-                          color: Colors.black26,
-                          offset: Offset(0, 2),
+          Center(
+            child: SingleChildScrollView(
+              child: Container(
+                width: double.infinity,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(bottom: 20),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 70,
+                        vertical: 10,
+                      ),
+                      transform: Matrix4.rotationZ(-8 * pi / 180)..translate(-10.0),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.deepOrange.shade800,
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 8,
+                              color: Colors.black26,
+                              offset: Offset(0, 2),
+                            ),
+                          ]),
+                      child: Text(
+                        "Minha Loja",
+                        style: GoogleFonts.anton(
+                          fontSize: 45,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
-                      ]),
-                  child: Text(
-                    "Minha Loja",
-                    style: GoogleFonts.anton(
-                      fontSize: 45,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      ),
                     ),
-                  ),
+                    AuthForm(),
+                  ],
                 ),
-                AuthForm(),
-              ],
+              ),
             ),
           )
         ],

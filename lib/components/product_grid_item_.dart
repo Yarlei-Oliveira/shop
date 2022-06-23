@@ -24,10 +24,18 @@ class ProductGridItem extends StatelessWidget {
               .pushNamed(AppRoutes.PRODUCTDETAIL, arguments: product);
         },
         child: GridTile(
-          child: Image.network(
+          child: Hero(
+            tag: product.id,
+            child: FadeInImage(
+                placeholder: AssetImage(
+                    'lib/assets/imagespngtree-web-ui-design-2-5d-icon-loading-ai-vector-png-free-image_1332562.jpg'),
+                image: NetworkImage(product.imageUrl),
+                fit: BoxFit.cover),
+          ),
+          /* child: Image.network(
             product.imageUrl,
             fit: BoxFit.cover,
-          ),
+          ), */
           footer: GridTileBar(
             leading: IconButton(
               icon: Icon(

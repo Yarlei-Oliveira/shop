@@ -8,13 +8,14 @@ class Store {
     return prefs.setString(key, value);
   }
 
-  static Future<bool> saveMap(String key, Map<String, dynamic> value) {
+  static Future<bool> saveMap(String key, Map<String, dynamic> value) async {
     return saveString(key, jsonEncode(value));
   }
 
-  static Future<String> getString(String key) async {
+  static Future<String> getString(String key,
+      [String defaultValue = '']) async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(key) ?? '';
+    return prefs.getString(key) ?? defaultValue;
   }
 
   static Future<Map<String, dynamic>> getMap(String key) async {
@@ -25,9 +26,8 @@ class Store {
     }
   }
 
-  static Future<bool> remove(String key) async{
+  static Future<bool> remove(String key) async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.remove(key);
-  } 
-
+  }
 }
