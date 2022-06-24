@@ -13,6 +13,7 @@ import 'package:shop/pages/product_form_page.dart';
 import 'package:shop/pages/product_management_page.dart';
 import 'package:shop/pages/product_overview_page.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shop/utils/custom_route.dart';
 import 'utils/routes.dart';
 
 void main() {
@@ -60,6 +61,11 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple)
               .copyWith(secondary: Colors.deepOrange),
           fontFamily: GoogleFonts.lato().fontFamily,
+          pageTransitionsTheme: PageTransitionsTheme(
+            builders: {
+              TargetPlatform.android: CustomPageTransitionBuilder()
+            }
+          ),
         ),
         home: AuthOrHomePage(),
         routes: {
